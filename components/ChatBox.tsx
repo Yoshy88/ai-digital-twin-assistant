@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import MessageBubble from './MessageBubble';
 import CalendarPicker from './CalendarPicker';
+import FollowUpSuggestions from './FollowUpSuggestions';
 import { Send, RotateCcw, User, Calendar, Mail, CheckCircle2, Clock } from 'lucide-react';
 
 const LIMIT = 5;
@@ -43,12 +44,51 @@ const ChatBox: React.FC<{ onTypingStateChange?: (isTyping: boolean) => void }> =
   }, [isLoading, input, onTypingStateChange]);
 
   // ── Helpers ────────────────────────────────────────────────────────────
+  /**
+   * Parses the AI message content to separate the main text from the follow-up suggestions.
+   * Handles cases with '---' separators and fallback cases where the AI just uses bullet points.
+   */
   const parseContent = (content: string) => {
-    const [mainText, suggestionText = ''] = content.split('---');
+    let mainText = content;
+    let suggestionText = '';
+
+    // Primary standard format using '---' as a separator
+    if (content.includes('---')) {
+      const parts = content.split('---');
+      mainText = parts[0];
+      suggestionText = parts.slice(1).join('---');
+    } else {
+      // Fallback: Extract bullet points at the end of the text if '---' is omitted
+      const lines = content.split('\n');
+      const suggestionLines = [];
+      while (lines.length > 0) {
+        const lastLine = lines[lines.length - 1].trim();
+        // If the line is empty or starts with a bullet/dash, consider it a suggestion candidate
+        if (lastLine === '' || /^[•*\-]/.test(lastLine)) {
+          if (lastLine !== '') {
+            suggestionLines.unshift(lastLine);
+          }
+          lines.pop();
+        } else {
+          // Also strip out conversational intros to the questions
+          if (lastLine.toLowerCase().includes('follow') || lastLine.toLowerCase().includes('question') || lastLine.endsWith(':')) {
+            lines.pop();
+          }
+          break;
+        }
+      }
+      if (suggestionLines.length > 0) {
+        mainText = lines.join('\n');
+        suggestionText = suggestionLines.join('\n');
+      }
+    }
+
+    // Clean up the suggestions strings
     const suggestions = suggestionText
       .split('\n')
-      .map((s) => s.trim().replace(/^[•*-]\s*/, ''))
+      .map((s) => s.trim().replace(/^[•*-]\s*/, '').replace(/^["']|["']$/g, '')) // Remove bullets and quotes
       .filter(s => s && !usedSuggestions.includes(s));
+      
     return { mainText: mainText.trim(), suggestions };
   };
 
@@ -248,16 +288,12 @@ const ChatBox: React.FC<{ onTypingStateChange?: (isTyping: boolean) => void }> =
                     </div>
                   )}
 
-                  {/* Suggestions Chips */}
-                  {suggestions.length > 0 && bookingStep === 'none' && (
-                    <div className="flex flex-wrap gap-2">
-                      {suggestions.slice(0, 4).map((s, i) => (
-                        <button key={i} onClick={() => handleSend(undefined, s)} className="px-3 py-1.5 bg-slate-800/80 border border-white/10 text-slate-300 rounded-full text-[11px] font-medium hover:border-indigo-400 hover:text-indigo-300 transition-all shadow-sm">
-                          {s}
-                        </button>
-                      ))}
-                    </div>
-                  )}
+                  {/* Suggestions Chips - Extracted to a clean component for better visibility */}
+                  <FollowUpSuggestions 
+                    suggestions={suggestions} 
+                    isVisible={bookingStep === 'none'} 
+                    onSuggestionClick={(s) => handleSend(undefined, s)} 
+                  />
                 </div>
               )}
             </div>
