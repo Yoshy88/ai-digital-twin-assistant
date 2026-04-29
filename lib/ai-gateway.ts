@@ -3,7 +3,7 @@ import { createOpenAI } from '@ai-sdk/openai';
 import { ollama } from 'ollama-ai-provider';
 
 export function getModel() {
-  if (process.env.USE_OLLAMA === 'true') {
+  if (process.env.USE_OLLAMA === 'true' && !process.env.VERCEL) {
     return ollama(process.env.OLLAMA_MODEL || 'qwen3-coder:30b');
   }
 
