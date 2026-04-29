@@ -1,0 +1,45 @@
+{
+  "summary": "Highly motivated Full-Stack Developer specializing in modern web technologies. Passionate about building scalable applications and solving complex problems with clean code.",
+  "skills": [
+    "TypeScript",
+    "Next.js",
+    "React",
+    "Node.js",
+    "PostgreSQL",
+    "Docker",
+    "TailwindCSS",
+    "Python",
+    "Problem-solving",
+    "Agile methodologies"
+  ],
+  "experience": [
+    {
+      "role": "Software Engineering Intern",
+      "company": "TechFlow Systems",
+      "description": "Contributed to the development of a real-time monitoring dashboard using React and WebSockets. Optimized database queries which improved data loading speeds by 30%.",
+      "technologies": ["React", "WebSockets", "SQL"]
+    },
+    {
+      "role": "Coding Tutor",
+      "company": "CodeBright Academy",
+      "description": "Mentored 20+ students in web development fundamentals, focusing on JavaScript and CSS best practices.",
+      "technologies": ["JavaScript", "CSS", "HTML"]
+    }
+  ],
+  "projects": [
+    {
+      "name": "AI Digital Twin",
+      "description": "An automated assistant that represents me to recruiters, answering questions based on my professional profile.",
+      "tech": ["Next.js", "OpenAI", "TailwindCSS"]
+    },
+    {
+      "name": "EcoTrack",
+      "description": "A mobile application to track and reduce personal carbon footprints.",
+      "tech": ["React Native", "Firebase"]
+    }
+  ],
+  "salary": "$70,000 - $85,000 AUD per annum (negotiable)",
+  "availability": "Immediately for internships; full-time graduate roles from July 2026.",
+  "location": "Sydney, Australia",
+  "job_target": "Junior Full-Stack Developer / Graduate Software Engineer"
+}

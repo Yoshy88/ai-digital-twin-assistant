@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Digital Twin Assistant
 
-## Getting Started
+This is a production-ready, minimal web application that allows recruiters to chat with an AI "Digital Twin" of a candidate.
 
-First, run the development server:
+## 🚀 Features
 
+- **AI Chat Interface**: Real-time chat with a recruiter-friendly AI persona.
+- **Digital Twin Behavior**: Responds in the first person based on a hardcoded profile.
+- **Premium Design**: Built with Next.js, TailwindCSS, and Lucide icons for a professional look.
+- **Fast & Responsive**: Mobile-ready and optimized for speed.
+
+## 🛠 Tech Stack
+
+- **Frontend**: Next.js 14+ (App Router), TypeScript, TailwindCSS
+- **AI**: OpenAI API (GPT-4o-mini)
+- **Icons**: Lucide React
+
+## 📦 Getting Started
+
+### 1. Clone the repository and install dependencies
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
+### 2. Set up Environment Variables
+Create a `.env.local` file in the root directory and add your OpenAI API Key:
+```
+OPENAI_API_KEY=your_actual_key_here
+```
+
+### 3. Run the development server
+```bash
+npm run dev
+```
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `/app`: Contains the main page and API routes.
+- `/components`: Reusable UI components (ChatBox, MessageBubble).
+- `/lib`: Utility functions and API clients (OpenAI).
+- `/data`: Hardcoded candidate profile data (`profile.ts`).
 
-## Learn More
+## 📄 Customization
 
-To learn more about Next.js, take a look at the following resources:
+To change the candidate information, simply update the object in `data/profile.ts`. The AI will automatically adjust its responses based on the new data.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚢 Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The easiest way to deploy this app is to use the [Vercel Platform](https://vercel.com/new).
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Push your code to GitHub.
+2. Import the project in Vercel.
+3. Add `OPENAI_API_KEY` to the project's Environment Variables in Vercel settings.
+4. Deploy!
