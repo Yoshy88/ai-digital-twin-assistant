@@ -1,5 +1,5 @@
 import { streamText } from 'ai';
-import { anthropic, openai, ollama } from '@/lib/ai-gateway';
+import { getModel } from '@/lib/ai-gateway';
 import profile from '@/data/profile.json';
 
 type ChatMessage = { role: 'user' | 'assistant' | 'system'; content: string };
@@ -46,25 +46,10 @@ export async function POST(req: Request) {
       temperature: 0.7,
     };
 
-    try {
-      result = await streamText({
-        model: ollama('qwen3-coder:30b'),
-        ...commonOptions,
-      });
-    } catch (e) {
-      console.warn('Ollama failed, trying Anthropic Gateway:', e);
-      try {
-        result = await streamText({
-          model: anthropic('claude-3-5-haiku-20241022'),
-          ...commonOptions,
-        });
-      } catch (e2) {
-        result = await streamText({
-          model: openai('gpt-4o-mini'),
-          ...commonOptions,
-        });
-      }
-    }
+    result = await streamText({
+      model: getModel(),
+      ...commonOptions,
+    });
 
     const suggestBooking = messageCount >= 5 || isTriggerKeyword;
 
