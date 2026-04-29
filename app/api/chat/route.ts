@@ -50,13 +50,13 @@ export async function POST(req: Request) {
     };
 
     result = await streamText({
-      model: getModel(),
+      model: getModel() as any,
       ...commonOptions,
     });
 
     const suggestBooking = messageCount >= 5 || isTriggerKeyword;
 
-    return result.toDataStreamResponse({
+    return result.toTextStreamResponse({
       headers: { 
         'X-Suggest-Booking': String(suggestBooking),
         'X-Is-Ciel': 'true'
