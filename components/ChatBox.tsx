@@ -165,7 +165,20 @@ const ChatBox: React.FC<{ onTypingStateChange?: (isTyping: boolean) => void }> =
           const { done, value } = await reader.read();
           if (done) break;
           const chunk = decoder.decode(value, { stream: true });
-          assistantContent += chunk;
+          
+          // Parse AI SDK Data Stream protocol (e.g., 0:"Hello\n")
+          const lines = chunk.split('\n');
+          for (const line of lines) {
+            if (line.startsWith('0:')) {
+              try {
+                const textStr = line.slice(2);
+                assistantContent += JSON.parse(textStr);
+              } catch (e) {
+                // Ignore incomplete chunks, though typically JSON.parse handles full lines
+              }
+            }
+          }
+          
           setMessages(prev => prev.map(m => m.id === assistantMsgId ? { ...m, content: assistantContent } : m));
         }
       }

@@ -4,6 +4,9 @@ import profile from '@/data/profile.json';
 
 type ChatMessage = { role: 'user' | 'assistant' | 'system'; content: string };
 
+export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
+
 const BOOKING_KEYWORDS = [
   'salary', 'pay', 'compensation', 'availability', 'available',
   'schedule', 'call', 'meeting', 'interview', 'position', 'role', 'offer', 'hire',
@@ -53,7 +56,7 @@ export async function POST(req: Request) {
 
     const suggestBooking = messageCount >= 5 || isTriggerKeyword;
 
-    return result.toTextStreamResponse({
+    return result.toDataStreamResponse({
       headers: { 
         'X-Suggest-Booking': String(suggestBooking),
         'X-Is-Ciel': 'true'
