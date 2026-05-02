@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
 const ELEVENLABS_TTS_URL = 'https://api.elevenlabs.io/v1/text-to-speech';
-const DEFAULT_VOICE_ID = '21m00Tcm4TlvDq8ikWAM';
+const DEFAULT_VOICE_ID = 'TxGEqnHWrfWFTfGW9XjX';
 const DEFAULT_MODEL_ID = 'eleven_multilingual_v2';
 
 type SpeakRequest = {
