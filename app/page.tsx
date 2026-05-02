@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import ChatBox from '@/components/ChatBox';
+import Footer from '@/components/Footer';
 import Orb from '@/components/Orb';
 
 export default function Home() {
@@ -22,24 +23,12 @@ export default function Home() {
 
       <div className="relative z-10 w-full max-w-4xl flex flex-col items-center pointer-events-none">
         <div className="w-full animate-in fade-in zoom-in-95 duration-500 pointer-events-auto">
-          <div className="flex items-center justify-between mb-6 w-full max-w-2xl mx-auto border-b border-white/10 pb-4">
-            <div>
-              <h2 className="text-xl font-bold text-white tracking-tight drop-shadow-sm">Recruitment Assistant</h2>
-              <p className="text-sm text-slate-300 font-medium">Digital Twin of Alex Rivera</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest drop-shadow-sm">Live Assistant</span>
-            </div>
-          </div>
           <div className="flex justify-center w-full shadow-2xl rounded-xl">
             <ChatBox onTypingStateChange={setIsTyping} />
           </div>
         </div>
+        <Footer />
       </div>
-      <footer className="relative z-10 mt-8 text-slate-500 text-[10px] uppercase tracking-widest font-bold pointer-events-none drop-shadow-sm">
-        AI Verification Powered by Alex Rivera
-      </footer>
     </main>
   );
 }

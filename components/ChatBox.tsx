@@ -16,7 +16,7 @@ const INITIAL_CONTENT = `Hello. I am Ciel's AI assistant — a digital clone rep
 - What kind of role is Ciel looking for?
 - Is Ciel available for a full-time role?`;
 
-const BOOKING_KEYWORDS = ['salary', 'pay', 'compensation', 'availability', 'available', 'schedule', 'call', 'meeting', 'interview', 'position', 'role', 'offer', 'hire', 'talk', 'speak', 'contact'];
+const BOOKING_KEYWORDS = ['salary', 'pay', 'compensation', 'availability', 'available', 'schedule', 'call', 'meeting', 'interview', 'position', 'role', 'offer', 'hire', 'employer\'s feedback'];
 
 interface Message {
   id: string;
@@ -53,6 +53,23 @@ const ChatBox: React.FC<{ onTypingStateChange?: (isTyping: boolean) => void }> =
     const savedEmail = localStorage.getItem('ciel_user_email');
     if (savedEmail) setUserEmail(savedEmail);
   }, []);
+
+  const checkInsufficientInfo = (content: string): boolean => {
+    const lowerContent = content.toLowerCase();
+    const insufficientPhrases = [
+      "don't know",
+      "not in my",
+      "not provided",
+      "not mentioned",
+      "not in the profile",
+      "not available",
+      "i'm unable to",
+      "i cannot",
+      "no information",
+      "not specified"
+    ];
+    return insufficientPhrases.some(phrase => lowerContent.includes(phrase));
+  };
 
   const parseContent = (content: string) => {
     let mainText = content;
@@ -166,10 +183,21 @@ const ChatBox: React.FC<{ onTypingStateChange?: (isTyping: boolean) => void }> =
 
       if (assistantMessage) {
         setMessages(prev => [...prev, { id: Date.now().toString(), role: 'assistant', content: assistantMessage }]);
+
+        // Check for booking trigger based on user requirements:
+        // 1. 5+ user messages
+        // 2. Contains specific keywords
+        // 3. AI lacks information
+        const hasInsufficientInfo = checkInsufficientInfo(assistantMessage);
+        const currentUserMessageCount = messages.filter(m => m.role === 'user').length + 1;
+        const enoughMessages = currentUserMessageCount >= 5;
+        const mentionsBooking = BOOKING_KEYWORDS.some(keyword => text.toLowerCase().includes(keyword.toLowerCase()));
         
-        // Check for booking trigger
-        const shouldBook = BOOKING_KEYWORDS.some(kw => text.toLowerCase().includes(kw));
-        if (shouldBook) setSuggestBooking(true);
+        const isAlreadyBooking = bookingStep !== 'none' || postBookingStep !== 'none';
+
+        if (!isAlreadyBooking && (enoughMessages || mentionsBooking || hasInsufficientInfo)) {
+          setSuggestBooking(true);
+        }
       }
     } catch (error) {
       console.error('Error sending message:', error);
@@ -213,13 +241,9 @@ const ChatBox: React.FC<{ onTypingStateChange?: (isTyping: boolean) => void }> =
             <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white shadow-inner">
               <User size={20} />
             </div>
-            <div>
-              <h2 className="text-sm font-bold text-white">Ciel's AI Assistant</h2>
-              <div className="flex items-center gap-1.5 text-[10px] text-slate-400 font-medium uppercase tracking-tighter">
-                <span>Digital Clone</span>
-                <span className="w-1 h-1 rounded-full bg-slate-300" />
-                <span className={isLimitReached ? 'text-red-500 font-bold' : ''}>{userMessageCount}/{LIMIT} Messages</span>
-              </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse shadow-lg shadow-green-500/50" />
+              <h2 className="text-sm font-bold text-white">Ciel's AI Twin</h2>
             </div>
           </div>
           <button onClick={() => window.location.reload()} className="p-2 text-slate-400 hover:text-slate-600 rounded-lg">
