@@ -505,7 +505,11 @@ const ChatBox: React.FC<{ onTypingStateChange?: (isTyping: boolean) => void; onL
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               disabled={isLoading}
+<<<<<<< HEAD
               placeholder={postBookingStep === 'ask_email' ? "Enter your email..." : "Type your question here or hold mic button to talk"}
+=======
+              placeholder={postBookingStep === 'ask_email' ? "Enter your email..." : "Type your question here or hold mic button to talk"}
+>>>>>>> 27365c7 (voice added)
               className="w-full pl-5 pr-28 py-3.5 bg-slate-800/80 border border-white/10 rounded-full text-sm text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-indigo-500/50 outline-none transition-all"
             />
             <div className="absolute right-2 flex items-center gap-1.5">
