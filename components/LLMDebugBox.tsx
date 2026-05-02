@@ -8,13 +8,34 @@ interface LLMInfo {
   model: string;
 }
 
-const LLMDebugBox: React.FC<{ llmInfo?: LLMInfo }> = ({ llmInfo }) => {
+interface LLMDebugBoxProps {
+  llmInfo?: LLMInfo;
+  isFooter?: boolean;
+}
+
+const LLMDebugBox: React.FC<LLMDebugBoxProps> = ({ llmInfo, isFooter = false }) => {
   const [isExpanded, setIsExpanded] = useState(true);
 
   if (!llmInfo) {
     return null;
   }
 
+  // Footer version: compact one-liner
+  if (isFooter) {
+    return (
+      <div className="text-slate-500 text-[10px] uppercase tracking-widest font-bold drop-shadow-sm flex items-center gap-2">
+        <span className="text-cyan-400 flex items-center gap-1">
+          <Cpu size={12} />
+          LLM
+        </span>
+        <span className="text-cyan-300 font-mono">
+          {llmInfo.provider} • {llmInfo.model}
+        </span>
+      </div>
+    );
+  }
+
+  // Fixed position version: collapsible box
   return (
     <div className="fixed bottom-4 right-4 z-50">
       <div className="bg-slate-800/95 backdrop-blur-md border border-cyan-500/50 rounded-lg shadow-lg overflow-hidden">

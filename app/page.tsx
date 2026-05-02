@@ -7,6 +7,7 @@ import Orb from '@/components/Orb';
 
 export default function Home() {
   const [isTyping, setIsTyping] = useState(false);
+  const [llmInfo, setLLMInfo] = useState<{ provider: string; model: string } | undefined>();
 
   return (
     <main className="min-h-screen bg-black relative flex flex-col items-center justify-center p-4 md:p-8 font-sans overflow-hidden">
@@ -24,10 +25,10 @@ export default function Home() {
       <div className="relative z-10 w-full max-w-4xl flex flex-col items-center pointer-events-none">
         <div className="w-full animate-in fade-in zoom-in-95 duration-500 pointer-events-auto">
           <div className="flex justify-center w-full shadow-2xl rounded-xl">
-            <ChatBox onTypingStateChange={setIsTyping} />
+            <ChatBox onTypingStateChange={setIsTyping} onLLMInfoChange={setLLMInfo} />
           </div>
         </div>
-        <Footer />
+        <Footer llmInfo={llmInfo} />
       </div>
     </main>
   );
