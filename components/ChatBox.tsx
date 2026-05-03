@@ -326,21 +326,6 @@ const ChatBox: React.FC<{ onTypingStateChange?: (isTyping: boolean) => void; onL
           onSuggestionClick={(suggestion: string) => void handleFormSubmit(undefined, suggestion)}
         />
 
-        <ChatTranscript
-          messages={messages}
-          isLoading={isLoading}
-          suggestBooking={suggestBooking}
-          bookingStep={bookingStep}
-          postBookingStep={postBookingStep}
-          usedSuggestions={usedSuggestions}
-          messagesEndRef={messagesEndRef}
-          onStartBooking={() => setBookingStep('selecting')}
-          onBookingConfirm={handleBookingConfirm}
-          onCopyYes={handleCopyYes}
-          onCopyNo={handleCopyNo}
-          onSuggestionClick={(suggestion: string) => void handleFormSubmit(undefined, suggestion)}
-        />
-
         <ChatComposer
           value={inputValue}
           placeholder={postBookingStep === 'ask_email' ? 'Enter your email...' : 'Type your question here or hold mic button to talk'}
